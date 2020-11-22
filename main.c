@@ -109,15 +109,15 @@ int minimax(int board[3][3], int player)
     return score;
 }
 
-void czytaj(int board[3][3])
+void getMove(int board[3][3])
 {
-    int poz = 0;
+    int position = 0;
     printf("Enter the number of the field on the board: ");
-    scanf("%d", &poz);
-    if (poz >= 1 && poz <= 9)
+    scanf("%d", &position);
+    if (position >= 1 && position <= 9)
     {
-        int x = (poz - 1) / 3;
-        int y = (poz - 1) % 3;
+        int x = (position - 1) / 3;
+        int y = (position - 1) % 3;
         if (board[x][y] == BLANK)
         {
             board[x][y] = PLAYER;
@@ -126,14 +126,14 @@ void czytaj(int board[3][3])
         {
             printBoard(board);
             printf("\033[0;31mThis field is already taken!\033[0m\n");
-            czytaj(board);
+            getMove(board);
         }
     }
     else
     {
         printBoard(board);
         printf("\033[0;31mInvalid value!\033[0m\n");
-        czytaj(board);
+        getMove(board);
     }
 }
 
@@ -143,8 +143,7 @@ int main(void)
     while (!end)
     {
         printBoard(arr);
-        // printf("Komputer wybrał: %d,%d\n", optimalX, optimalY); // debug
-        czytaj(arr);
+        getMove(arr);
 
         if (estimateBoard(arr) == PLAYER)
         {
