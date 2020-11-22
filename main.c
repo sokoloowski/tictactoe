@@ -13,7 +13,7 @@
 int optimalX,
     optimalY;
 
-int arr[3][3] = {{0,0,0},{0,0,0},{0,0,0}};
+int arr[3][3] = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
 
 void printBoard(int board[3][3])
 {
@@ -140,26 +140,27 @@ void getMove(int board[3][3])
 int main(void)
 {
     int end = 0;
+    printBoard(arr);
     while (!end)
     {
-        printBoard(arr);
         getMove(arr);
+        printBoard(arr);
 
         if (estimateBoard(arr) == PLAYER)
         {
-            printBoard(arr);
             printf("You won!\n");
-            break;
+            return 0;
         }
 
+        printf("Processing...\n");
         minimax(arr, AI);
         arr[optimalX][optimalY] = AI;
+        printBoard(arr);
 
         if (estimateBoard(arr) == AI)
         {
-            printBoard(arr);
             printf("You lost...\n");
-            break;
+            return 0;
         }
 
         end = 1;
@@ -167,12 +168,8 @@ int main(void)
             for (int j = 0; j < 3; j++)
                 if (arr[i][j] == BLANK)
                     end = 0;
-        if (end)
-        {
-            printBoard(arr);
-            printf("Draw.\n");
-        }
     }
+    printf("Draw.\n");
     return 0;
 }
 
