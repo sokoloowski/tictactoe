@@ -1,10 +1,14 @@
-////////////////////////////////////////////////////////
-//                                                    //
-//     BEFORE YOU START - UNCOMMENT LINE 18 OR 19     //
-//                                                    //
-////////////////////////////////////////////////////////
-
 #include <stdio.h>
+
+#if defined __linux__
+#define IS_LINUX 1
+#elif defined _WIN32
+#define IS_LINUX 0
+#endif
+
+#define RED "\033[0;31m"
+#define GREEN "\033[0;32m"
+#define DEFAULT "\033[0m"
 
 #define PLAYER -1
 #define BLANK 0
@@ -17,22 +21,26 @@ int arr[3][3] = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
 
 void printBoard(int board[3][3])
 {
-    // system("clear"); // for Unix
-    // system("cls");   // for Windows
+    if (IS_LINUX)
+        system("clear"); // for Unix
+    else
+        system("cls"); // for Windows
     for (int i = 0; i < 3; i++)
     {
         for (int j = 0; j < 3; j++)
         {
             printf(" ");
-            if (board[i][j] == AI)
+            if (board[i][j] == AI && IS_LINUX)
             {
-                printf("\033[0;31m");
+                printf(RED);
             }
-            else if (board[i][j] == PLAYER)
+            else if (board[i][j] == PLAYER && IS_LINUX)
             {
-                printf("\033[0;32m");
+                printf(GREEN);
             }
-            printf("%c \033[0m", board[i][j] == BLANK ? (3 * i) + j + 1 + '0' : (board[i][j] == PLAYER ? 'o' : 'x'));
+            printf("%c ", board[i][j] == BLANK ? (3 * i) + j + 1 + '0' : (board[i][j] == PLAYER ? 'o' : 'x'));
+            if (IS_LINUX)
+                printf(DEFAULT);
             if (j != 2)
                 printf("|");
         }
@@ -125,14 +133,24 @@ void getMove(int board[3][3])
         else
         {
             printBoard(board);
-            printf("\033[0;31mThis field is already taken!\033[0m\n");
+            if (IS_LINUX)
+                printf(RED);
+            printf("This field is already taken!");
+            if (IS_LINUX)
+                printf(DEFAULT);
+            printf("\n");
             getMove(board);
         }
     }
     else
     {
         printBoard(board);
-        printf("\033[0;31mInvalid value!\033[0m\n");
+        if (IS_LINUX)
+            printf(RED);
+        printf("Invalid value!");
+        if (IS_LINUX)
+            printf(DEFAULT);
+        printf("\n");
         getMove(board);
     }
 }
@@ -172,9 +190,3 @@ int main(void)
     printf("Draw.\n");
     return 0;
 }
-
-////////////////////////////////////////////////////////
-//                                                    //
-//     BEFORE YOU START - UNCOMMENT LINE 18 OR 19     //
-//                                                    //
-////////////////////////////////////////////////////////
