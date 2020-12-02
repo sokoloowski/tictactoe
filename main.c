@@ -1,3 +1,5 @@
+// Moved to https://github.com/sokoloowski/tictactoe
+
 #include <stdio.h>
 
 #if defined __linux__
@@ -93,18 +95,15 @@ int minimax(int board[3][3], int player)
         {
             if (board[x][y] == BLANK)
             {
-                int boardWithNewMove[3][3];
-                for (int i = 0; i < 3; i++)
-                    for (int j = 0; j < 3; j++)
-                        boardWithNewMove[i][j] = board[i][j];
-                boardWithNewMove[x][y] = player;
-                int scoreForTheMove = -minimax(boardWithNewMove, player == PLAYER ? AI : PLAYER);
+                board[x][y] = player;
+                int scoreForTheMove = -minimax(board, player == PLAYER ? AI : PLAYER);
                 if (scoreForTheMove > score)
                 {
                     score = scoreForTheMove;
                     localX = x;
                     localY = y;
                 }
+                board[x][y] = BLANK;
             }
         }
     }
