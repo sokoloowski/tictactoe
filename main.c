@@ -1,5 +1,3 @@
-// Moved to https://github.com/sokoloowski/tictactoe
-
 #include <stdio.h>
 
 #if defined __linux__
